@@ -6,18 +6,20 @@ const SOLUTIONS_FILE: &str = "data/solutions.yml";
 const BENCHMARK_RUN_MILLIS: i32 = 1000;
 const COUNT_SUFFIXES: &[&str] = &["", "K", "M", "B"];
 const COUNT_STEP_FACTOR: i32 = 1000;
+type ErrorMessage = String;
 
-fn read_solution(problem_num: i32) -> i32 {
-    let data: BTreeMap<String, i32> =
-        serde_yaml::from_reader(std::fs::File::open(SOLUTIONS_FILE).expect(&format!(
-            "Could not open solutions file: {}",
-            SOLUTIONS_FILE
-        )))
-        .unwrap();
+fn read_solution(problem_num: i32) -> Result<i32, ErrorMessage> {
+    let data: BTreeMap<String, i32> = serde_yaml::from_reader(
+        std::fs::File::open(SOLUTIONS_FILE)
+            .map_err(|_e| format!("Could not open solutions file {}", SOLUTIONS_FILE))?,
+    )
+    .map_err(|_e| format!("Could not parse solutions file {}", SOLUTIONS_FILE))?;
     let key = format!("problem{}", problem_num);
-    *data
-        .get(&key)
-        .expect(&format!("Could not read key {}", &key))
+    if let Some(val) = data.get(&key) {
+        Ok(*val)
+    } else {
+        Err(format!("No solution found for problem #{}", problem_num))
+    }
 }
 
 fn render_count(count: i32) -> String {
@@ -49,17 +51,21 @@ pub fn check_solution(problem_num: i32, msg: &str, func: &dyn Fn() -> i32) {
         render_count(num_iterations),
         elapsed as f64 / 1000.0
     );
-    let valid_solution = read_solution(problem_num);
-    if valid_solution == 0 {
-        println!("Result is {}. Valid solution is not defined yet", result);
-    } else {
-        if result != valid_solution {
-            println!(
-                "Error! Result: {}, valid solution: {}",
-                result, valid_solution
-            );
-        } else {
-            println!("OK!");
+    let valid_solution_opt = read_solution(problem_num);
+    match valid_solution_opt {
+        Err(err) => {
+            println!("Error happened: {}", err);
+            println!("Result is {}. Valid solution is not defined yet", result);
+        }
+        Ok(valid_solution) => {
+            if result != valid_solution {
+                println!(
+                    "Error! Result: {}, valid solution: {}",
+                    result, valid_solution
+                );
+            } else {
+                println!("OK!");
+            }
         }
     }
 }
