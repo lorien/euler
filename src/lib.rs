@@ -1,6 +1,4 @@
-use serde_yaml;
 use std::collections::BTreeMap;
-use std::fmt::Display;
 use std::time::Instant;
 
 const SOLUTIONS_FILE: &str = "data/solutions.yml";
