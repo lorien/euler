@@ -1,5 +1,6 @@
 use serde_yaml;
 use std::collections::BTreeMap;
+use std::fmt::Display;
 use std::time::Instant;
 
 const SOLUTIONS_FILE: &str = "data/solutions.yml";
@@ -8,8 +9,8 @@ const COUNT_SUFFIXES: &[&str] = &["", "K", "M", "B"];
 const COUNT_STEP_FACTOR: i32 = 1000;
 type ErrorMessage = String;
 
-fn read_solution(problem_num: i32) -> Result<i32, ErrorMessage> {
-    let data: BTreeMap<String, i32> = serde_yaml::from_reader(
+fn read_solution(problem_num: i64) -> Result<i64, ErrorMessage> {
+    let data: BTreeMap<String, i64> = serde_yaml::from_reader(
         std::fs::File::open(SOLUTIONS_FILE)
             .map_err(|_e| format!("Could not open solutions file {}", SOLUTIONS_FILE))?,
     )
@@ -33,7 +34,7 @@ fn render_count(count: i32) -> String {
     format!("{:.1}{}", count, COUNT_SUFFIXES[suffix_idx])
 }
 
-pub fn check_solution(problem_num: i32, msg: &str, func: &dyn Fn() -> i32) {
+pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
     let now = Instant::now();
     let mut num_iterations = 0;
     let result = loop {

@@ -1,22 +1,22 @@
 use euler::check_solution;
 
-const TARGET: i32 = 999;
+const TARGET: i64 = 999;
 
-fn sum_of_seq(end: i32) -> i32 {
+fn sum_of_seq(end: i64) -> i64 {
     // start is 1
     (end * (end + 1)) / 2
 }
 
-fn sum_divisible_by(div: i32, limit: i32) -> i32 {
+fn sum_divisible_by(div: i64, limit: i64) -> i64 {
     div * sum_of_seq((limit - (limit % div)) / div)
 }
 
-fn solution_formula() -> i32 {
+fn solution_formula() -> i64 {
     sum_divisible_by(3, TARGET) + sum_divisible_by(5, TARGET) - sum_divisible_by(15, TARGET)
 }
 
-fn solution_iter() -> i32 {
-    let mut sum: i32 = 0;
+fn solution_iter() -> i64 {
+    let mut sum: i64 = 0;
     for num in 1..=TARGET {
         if num % 3 == 0 || num % 5 == 0 {
             sum += num;

@@ -1,8 +1,8 @@
 use euler::check_solution;
 
-const TARGET: i32 = 4_000_000;
+const TARGET: i64 = 4_000_000;
 
-fn solution_iter() -> i32 {
+fn solution_iter() -> i64 {
     let mut first = 1;
     let mut second = 1;
     let mut sum_of_even = 0;
@@ -17,7 +17,7 @@ fn solution_iter() -> i32 {
     sum_of_even
 }
 
-fn solution_each_third() -> i32 {
+fn solution_each_third() -> i64 {
     let mut first = 1;
     let mut second = 1;
     let mut third = first + second;
@@ -34,7 +34,7 @@ fn solution_each_third() -> i32 {
     sum_of_even
 }
 
-fn solution_formula() -> i32 {
+fn solution_formula() -> i64 {
     let mut first = 2;
     let mut second = 8;
     let mut sum_of_even = first;
