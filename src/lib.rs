@@ -63,7 +63,7 @@ pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
                     result, valid_solution
                 );
             } else {
-                println!("OK!");
+                println!("Valid!");
             }
         }
     }
