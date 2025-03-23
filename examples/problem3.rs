@@ -44,7 +44,7 @@ fn solution_with_division() -> i64 {
     result.unwrap()
 }
 
-fn solution_with_division_skip2() -> i64 {
+fn solution_with_division_skip_even() -> i64 {
     let mut target = TARGET;
     assert!(target > 2);
     let mut num = 2;
@@ -66,5 +66,9 @@ fn solution_with_division_skip2() -> i64 {
 fn main() {
     check_solution(3, "common", &solution_common);
     check_solution(3, "with-division", &solution_with_division);
-    check_solution(3, "with-division-skip2", &solution_with_division_skip2);
+    check_solution(
+        3,
+        "with-division-skip-even",
+        &solution_with_division_skip_even,
+    );
 }
