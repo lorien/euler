@@ -3,11 +3,9 @@ use std::collections::HashSet;
 
 const TARGET: i64 = 600851475143;
 
-fn find_max_prime_factor() -> i64 {
+fn solution_common() -> i64 {
     let target = TARGET;
-    if target < 2 {
-        panic!("Target  must be 2 or greater")
-    }
+    assert!(target >= 2);
     let mut result = None;
     let mut primes = HashSet::new();
     for num in 2..=((target as f64).sqrt().floor() as i64) {
@@ -25,13 +23,12 @@ fn find_max_prime_factor() -> i64 {
             }
         }
     }
-    if let None = result {
-        panic!("Could not find prime factors of number {}", target);
-    } else {
-        result.unwrap()
+    match result {
+        None => panic!("Could not find prime factors of number {}", target),
+        Some(val) => val,
     }
 }
 
 fn main() {
-    check_solution(3, "common", &find_max_prime_factor);
+    check_solution(3, "common", &solution_common);
 }
