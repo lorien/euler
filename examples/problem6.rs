@@ -11,6 +11,14 @@ fn solution_common() -> i64 {
     square_of_sum - sum_of_squares
 }
 
+fn solution_formula() -> i64 {
+    // 1^2 + ... + n^2 = (1/6) * (2n^3 + 3n^2 + n)
+    let square_of_sum = ((TARGET * (TARGET + 1)) / 2).checked_pow(2).unwrap();
+    let sum_of_squares = (2 * TARGET.pow(3) + 3 * TARGET.pow(2) + TARGET) / 6;
+    square_of_sum - sum_of_squares
+}
+
 fn main() {
     check_solution(6, "common", &solution_common);
+    check_solution(6, "formual", &solution_formula);
 }
