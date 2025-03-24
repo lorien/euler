@@ -54,7 +54,7 @@ pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
     match valid_solution_opt {
         Err(err) => {
             println!("Error happened: {}", err);
-            println!("Result is {}. Valid solution is not defined yet", result);
+            println!("Result: [ {} ]. Valid solution is not defined yet", result);
         }
         Ok(valid_solution) => {
             if result != valid_solution {
