@@ -68,3 +68,14 @@ pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
         }
     }
 }
+
+pub fn run_solution(_problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
+    let now = Instant::now();
+    let result = func();
+    println!(
+        "Solution {} took {:.4} sec. Result: {}",
+        msg,
+        (now.elapsed().as_millis() as f64) / 1000.0,
+        result
+    );
+}
