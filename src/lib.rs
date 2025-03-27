@@ -32,24 +32,7 @@ fn render_count(count: i32) -> String {
     format!("{:.1}{}", count, COUNT_SUFFIXES[suffix_idx])
 }
 
-pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
-    let now = Instant::now();
-    let mut num_iterations = 0;
-    let result = loop {
-        let result = func();
-        num_iterations += 1;
-        if now.elapsed().as_millis() as i32 > BENCHMARK_RUN_MILLIS {
-            break result;
-        }
-    };
-    let elapsed = now.elapsed().as_millis();
-
-    println!(
-        "{}: {} iters in {:.3} sec",
-        msg,
-        render_count(num_iterations),
-        elapsed as f64 / 1000.0
-    );
+fn match_valid_solution(problem_num: i64, result: i64) {
     let valid_solution_opt = read_solution(problem_num);
     match valid_solution_opt {
         Err(err) => {
@@ -69,7 +52,28 @@ pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
     }
 }
 
-pub fn run_solution(_problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
+pub fn check_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
+    let now = Instant::now();
+    let mut num_iterations = 0;
+    let result = loop {
+        let result = func();
+        num_iterations += 1;
+        if now.elapsed().as_millis() as i32 > BENCHMARK_RUN_MILLIS {
+            break result;
+        }
+    };
+    let elapsed = now.elapsed().as_millis();
+
+    println!(
+        "{}: {} iters in {:.3} sec",
+        msg,
+        render_count(num_iterations),
+        elapsed as f64 / 1000.0
+    );
+    match_valid_solution(problem_num, result);
+}
+
+pub fn run_solution(problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
     let now = Instant::now();
     let result = func();
     println!(
@@ -78,4 +82,5 @@ pub fn run_solution(_problem_num: i64, msg: &str, func: &dyn Fn() -> i64) {
         (now.elapsed().as_millis() as f64) / 1000.0,
         result
     );
+    match_valid_solution(problem_num, result);
 }
